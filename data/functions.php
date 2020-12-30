@@ -87,3 +87,17 @@ function fecha($fecha)
     $fecha = "$dia de " . $meses[$mes] . " del $year";
     return $fecha;
 }
+
+function administradores($conexion)
+{
+    $statement = $conexion->query('SELECT * FROM users');
+    $resultado = $statement->fetchAll();
+    return ($resultado) ? $resultado : false;
+}
+
+function empleados($conexion)
+{
+    $statement = $conexion->query('SELECT * FROM empleados');
+    $resultado = $statement->fetchAll();
+    return ($resultado) ? $resultado : false;
+}
