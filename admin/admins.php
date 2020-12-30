@@ -17,6 +17,8 @@ $active_asis = '';
 $active_admin = 'active';
 $active_emp = '';
 
+$administradores = administradores($conexion);
+
 /* Condicional que verifica si la variable sesión esta seteada
 hace la insersión del archivo de vista html de lo contrario 
 redirecciona al usuario a la pantalla de Login*/
