@@ -26,7 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'No. Empleado',
         'Nombre',
         'Entrada',
-        'Salida'
+        'Salida',
+        'Comentarios'
     ));
 
     $statement = $conexion->prepare(
@@ -45,7 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $res['id_empleado'],
             $res['empleado'],
             $res['entrada'],
-            $res['salida']
+            $res['salida'],
+            $res['comentario']
         ));
     endforeach;
 } else {
