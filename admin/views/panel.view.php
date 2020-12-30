@@ -38,7 +38,7 @@
                                                             echo date_format($entrada, "g:i a") ?></p>
                             <p class="card-text">Salida: <?php
                                                             if ($asistencia['salida'] == '0000-00-00 00:00:00') {
-                                                                echo "No registrada";
+                                                                echo "<span class='text-danger'>No registrada</span>";
                                                             } else {
                                                                 $salida = date_create($asistencia['salida']);
                                                                 echo date_format($salida, "g:i a");
