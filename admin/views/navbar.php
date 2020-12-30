@@ -16,7 +16,7 @@
                 <a class="nav-link <?php echo $active_emp ?>" href="<?php echo RUTA ?>admin/usuarios.php">Colaboradores</a>
             </li>
         </ul>
-        <?php if ($_SERVER['PHP_SELF'] == '/asistencias/admin/panel.php') : ?>
+        <?php if ($_SERVER['PHP_SELF'] == '/admin/panel.php') : ?>
             <button type="button" class="btn btn-outline-info my-2 my-sm-0 text-white" data-toggle="modal" data-target="#export">Generar Reporte</button>&nbsp;
             <!-- <a class="btn btn-outline-success my-2 my-sm-0 text-white" href="<?php // echo RUTA 
                                                                                     ?>" target="_blank">Nueva Asistencia</a>&nbsp; -->
