@@ -37,6 +37,15 @@ function validarExistUser($conexion, $usuario)
     return ($resultado) ? $resultado : false;
 }
 
+function validarExistUserS($conexion, $usuario)
+{
+    $statement = $conexion->prepare("SELECT * FROM users WHERE user = :usuario LIMIT 1");
+    $statement->execute(array(":usuario" => $usuario));
+    $resultado = $statement->fetch();
+    return ($resultado) ? $resultado : false;
+}
+
+
 function extractName($conexion, $usuario)
 {
     $statement = $conexion->prepare("SELECT empleado FROM empleados WHERE email = :usuario LIMIT 1");
