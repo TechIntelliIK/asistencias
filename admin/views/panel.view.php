@@ -21,7 +21,7 @@
     <!-- Navbar -->
     <?php require 'navbar.php' ?>
 
-    <div style="padding-top: 88px"></div>
+    <div style="padding-top: 68px"></div>
     <div class="container content-fluid pt-3">
         <?php echo $errores; ?>
         <div class="row justify-content-center">
