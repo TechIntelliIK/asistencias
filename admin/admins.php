@@ -23,8 +23,34 @@ if (isset($_SESSION['registrado'])) {
     unset($_SESSION['registrado']);
     $errores .= '<div class="alert alert-success alert-dismissable col-12">
                       <button type="button" class="close" data-dismiss="alert">&times;</button>
-                      <strong>¡Exito!</strong>Usuario registrado correctamente.
+                      <strong>¡Exito!</strong> Usuario registrado correctamente.
                     </div>';
+}
+
+if (isset($_SESSION['actualizado'])) {
+    unset($_SESSION['actualizado']);
+    $errores .= '<div class="alert alert-success alert-dismissable col-12">
+                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+                      <strong>¡Exito!</strong> Usuario actualizado correctamente.
+                    </div>';
+}
+
+if (isset($_SESSION['eliminado'])) {
+    unset($_SESSION['eliminado']);
+    $errores .= '<div class="alert alert-success alert-dismissable col-12">
+                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+                      <strong>¡Exito!</strong> Usuario eliminado correctamente.
+                    </div>';
+}
+
+if (isset($_SESSION['vacios'])) {
+    $errores .= $_SESSION['vacios'];
+    unset($_SESSION['vacios']);
+}
+
+if (isset($_SESSION['validacion'])) {
+    $errores .= $_SESSION['validacion'];
+    unset($_SESSION['validacion']);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
