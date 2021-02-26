@@ -27,4 +27,4 @@
         <?php } ?>
         <a class="btn btn-outline-secondary my-2 my-sm-0 text-white" href="<?php echo RUTA ?>admin/logout.php">Cerrar Sesión</a>
     </div>
-</nav>|
+</nav>
