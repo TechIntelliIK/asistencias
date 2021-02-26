@@ -34,7 +34,7 @@
                             <h6 class="card-title">Usuario: <a href="mailto:<?php echo $administrador['user'] ?>" class="text-info"><?php echo $administrador['user'] ?></a></h6>
                             <!-- <p class="card-text">Contraseña: <a href="#" class="text-info">Ver ➥</a></p> -->
                             <div class="btn-group col-12" role="group" aria-label="Basic example">
-                                <button type="button" class="btn btn-info col-6" data-toggle="modal" data-target="#editUser" data-registro="<?php echo base64_encode($administrador['id_user']) ?>" data-nombre="<?php echo $administrador['name'] ?>" data-usuario="<?php echo $administrador['user'] ?>" data-pass="<?php echo $administrador['pass'] ?>">Editar</button>
+                                <button type="button" class="btn btn-info col-6" data-toggle="modal" data-target="#editUser" data-registro="<?php echo base64_encode($administrador['id_user']) ?>" data-nombre="<?php echo $administrador['name'] ?>" data-usuario="<?php echo $administrador['user'] ?>">Editar</button>
                                 <button type=" button" class="btn btn-danger col-6" data-toggle="modal" data-target="#deleteUser" data-nombre="<?php echo $administrador['name'] ?>" data-registro="<?php echo base64_encode($administrador['id_user']) ?>">Elminar</button>
                             </div>
                         </div>
@@ -91,10 +91,87 @@
             </div>
         </div>
     </div>
+
+    <!-- Editar Admin -->
+    <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Administrador</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="<?php echo htmlspecialchars(RUTA . 'admin/stm/update.admin.php'); ?>" method="POST">
+                        <input type="hidden" name="iduser" id="iduser">
+                        <div class="form-group">
+                            <label for="name" class="col-form-label">Nombre:</label>
+                            <input type="text" class="form-control" id="name" name="name" autocomplete="off" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="user" class="col-form-label">Correo electrónico (usuario): </label>
+                            <input type="email" class="form-control" id="user" name="user" autocomplete="off" required>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Actualizar</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Eliminar -->
+    <div class="modal fade" id="deleteUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar registro de </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="<?php echo htmlspecialchars(RUTA . 'admin/stm/delete.admin.php'); ?>" method="POST">
+                        <input type="hidden" id="iduser" name="iduser">
+                        Este registro se eliminará premanentemente ¿Desea eliminarlo?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- JS, Popper.js, and jQuery -->
     <script src="<?php echo RUTA ?>resources/js/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="<?php echo RUTA ?>resources/js/bootstrap.min.js"></script>
+    <script>
+        $('#editUser').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id_user = button.data('registro')
+            var nombre = button.data('nombre')
+            var correo = button.data('usuario')
+            var modal = $(this)
+            modal.find('.modal-title').text('Editar registro de ' + nombre)
+            modal.find('.modal-body #iduser').val(id_user)
+            modal.find('.modal-body #name').val(nombre)
+            modal.find('.modal-body #user').val(correo)
+        })
+
+        $('#deleteUser').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id_user = button.data('registro')
+            var nombre = button.data('nombre')
+            var modal = $(this)
+            modal.find('.modal-title').text('Eliminar registro de ' + nombre)
+            modal.find('.modal-body #iduser').val(id_user)
+        })
+    </script>
 
 </body>
 
