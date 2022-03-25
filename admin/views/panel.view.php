@@ -48,7 +48,7 @@
                                 $entrada = date_create($asistencia['entrada']);
 
                                 if (date_format($entrada, "H") >= '8' && date_format($entrada, "H") <= '23' ||
-                                    date_format($entrada, "H") >= '0' && date_format($entrada, "H") < '6') {
+                                    date_format($entrada, "H") >= '0' && date_format($entrada, "H") < '5') {
                                     echo "<tr class='table-danger'>";
                                 } else {
                                     echo "<tr>";
