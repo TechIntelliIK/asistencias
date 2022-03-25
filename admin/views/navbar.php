@@ -16,14 +16,14 @@
                 <a class="nav-link <?php echo $active_emp ?>" href="<?php echo RUTA ?>admin/usuarios.php">Colaboradores</a>
             </li>
         </ul>
-        <?php if ($_SERVER['PHP_SELF'] == '/admin/panel.php') { ?>
+        <?php if ($_SERVER['PHP_SELF'] == MENU . 'panel.php') { ?>
             <button type="button" class="btn btn-outline-success my-2 my-sm-0 text-white" data-toggle="modal" data-target="#export">Generar Reporte</button>&nbsp;
             <!-- <a class="btn btn-outline-success my-2 my-sm-0 text-white" href="<?php // echo RUTA 
                                                                                     ?>" target="_blank">Nueva Asistencia</a>&nbsp; -->
-        <?php } elseif ($_SERVER['PHP_SELF'] == '/admin/admins.php') { ?>
+        <?php } elseif ($_SERVER['PHP_SELF'] == MENU . 'admins.php') { ?>
             <button type="button" class="btn btn-outline-success my-2 my-sm-0 text-white" data-toggle="modal" data-target="#newUser">Nuevo Usuario</button>&nbsp;
         <?php } else { ?>
-            <button type="button" class="btn btn-outline-success my-2 my-sm-0 text-white" data-toggle="modal" data-target="#newEmp">Nuevo Colaborador</button>&nbsp;
+            <button type="button" class="btn btn-outline-success my-2 my-sm-0 text-white" data-toggle="modal" data-target="#newUser">Nuevo Colaborador</button>&nbsp;
         <?php } ?>
         <a class="btn btn-outline-secondary my-2 my-sm-0 text-white" href="<?php echo RUTA ?>admin/logout.php">Cerrar Sesión</a>
     </div>

@@ -8,6 +8,7 @@ error_reporting(0);
 
 // Variable definida para utilizar en los enlaces o en la reedirección
 define('RUTA', "http://{$_SERVER['SERVER_NAME']}/");
+define('MENU', "/admin/");
 
 //  Arreglo de configuracion de la Base de datos
 $bd_config = array(
@@ -17,6 +18,6 @@ $bd_config = array(
     'basededatos' => 'hammex_asistencias',
     // Usurio de base de datos
     'usuario' => 'gortega',
-    // Contraseña de base de datos
+    // Contrase帽a de base de datos
     'pass' => 'Issac1997'
 );

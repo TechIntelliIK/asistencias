@@ -110,3 +110,23 @@ function empleados($conexion)
     $resultado = $statement->fetchAll();
     return ($resultado) ? $resultado : false;
 }
+
+function rmDir_rf($carpeta_destino)
+{
+    foreach (glob($carpeta_destino . "/*") as $archivos_carpeta) {
+        if (is_dir($archivos_carpeta)) {
+            rmDir_rf($archivos_carpeta);
+        } else {
+            unlink($archivos_carpeta);
+        }
+    }
+    rmdir($carpeta_destino);
+}
+
+function extractEmail($conexion, $id_empleado)
+{
+    $statement = $conexion->prepare("SELECT email FROM empleados WHERE id_empleado = :id_empleado LIMIT 1");
+    $statement->execute(array(":id_empleado" => $id_empleado));
+    $resultado = $statement->fetch();
+    return ($resultado) ? $resultado : false;
+}

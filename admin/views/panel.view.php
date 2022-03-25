@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="<?php echo RUTA; ?>resources/css/bootstrap.min.css">
     <script src="<?php echo RUTA ?>resources/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo RUTA; ?>resources/css/datatables.min.css">
+
     <!-- Color navegador -->
     <meta name="theme-color" content="#202020">
     <title>Panel de control</title>
@@ -21,38 +23,74 @@
     <!-- Navbar -->
     <?php require 'navbar.php' ?>
 
-    <div style="padding-top: 68px"></div>
+    <div style="padding-top: 100px"></div>
     <div class="container content-fluid pt-3">
         <?php echo $errores; ?>
         <div class="row justify-content-center">
-            <?php
-            if (!empty($asistencias)) {
-                foreach ($asistencias as $asistencia) : ?>
-                    <div class="card text-white mb-3 bg-dark" style="width: 18rem;">
-                        <div class="card-header text-center">Asistencia del dia <small><i><?php $date = date_create($asistencia['entrada']);
-                                                                                            echo fecha($asistencia['entrada']) ?></i></small></div>
-                        <div class="card-body">
-                            <h5 class="card-title"><?php echo $asistencia['empleado'] ?></h5>
-                            <p class="card-text">No. Empleado: <?php echo $asistencia['id_empleado'] ?></p>
-                            <p class="card-text">Entrada: <?php $entrada = date_create($asistencia['entrada']);
-                                                            echo date_format($entrada, "g:i a") ?></p>
-                            <p class="card-text">Salida: <?php
-                                                            if ($asistencia['salida'] == '0000-00-00 00:00:00') {
-                                                                echo "<span class='text-danger'>No registrada</span>";
-                                                            } else {
-                                                                $salida = date_create($asistencia['salida']);
-                                                                echo date_format($salida, "g:i a");
-                                                            }
-                                                            ?></p>
-                            <p class="card-text"><a href="#" style="color: #7CBEEA;" data-toggle="modal" data-target="#verFotos" data-nombre="<?php echo $asistencia['empleado'] ?>" data-imagen1="<img src=' <?php echo RUTA . 'resources/img/imgusers/' . $asistencia['email'] . '/' . $asistencia['thumb']; ?>' class='img-fluid' alt='Imagen Pantalla'>" data-imagen2="<img src=' <?php echo RUTA . 'resources/img/imgusers/'  . $asistencia['email'] . '/' .  $asistencia['thumb2']; ?>' class='img-fluid' alt='Imagen Pantalla'>" data-nota="<div class='alert alert-primary' role='alert'><?php echo nl2br($asistencia['comentario']); ?></div>">Ver fotos y comentarios ➥</a></p>
-                            <div class="btn-group col-12" role="group" aria-label="Basic example">
-                                <button type="button" class="btn btn-info col-6" data-toggle="modal" data-target="#editAsis" data-registro="<?php echo base64_encode($asistencia['id_asistencia']) ?>" data-nombre="<?php echo $asistencia['empleado'] ?>" data-fecha="<?php echo date_format($date, "d-m-Y") ?>" data-entrada="<?php echo $asistencia['entrada'] ?>" data-salida="<?php echo $asistencia['salida'] ?>">Editar</button>
-                                <button type=" button" class="btn btn-danger col-6" data-toggle="modal" data-target="#deleteAsis" data-nombre="<?php echo $asistencia['empleado'] ?>" data-fecha="<?php echo date_format($date, "d-m-Y") ?>" data-registro="<?php echo base64_encode($asistencia['id_asistencia']) ?>" data-imagen1="<?php echo '../../resources/img/imgusers/' . $asistencia['email'] . '/' . $asistencia['thumb']; ?>" data-imagen2="<?php echo '../../resources/img/imgusers/' . $asistencia['email'] . '/' . $asistencia['thumb2']; ?>">Elminar</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pt-5 pr-2"></div>
-                <?php endforeach; ?>
+            <?php if (!empty($asistencias)) : ?>
+
+                <div class="table-responsive">
+                    <table id="table_asist" class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>No. Nomina</th>
+                                <th>Empleado</th>
+                                <th>Dia</th>
+                                <th>Entrada</th>
+                                <th>Salida</th>
+                                <th>Fotos</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($asistencias as $asistencia) : ?>
+                                <?php
+                                $entrada = date_create($asistencia['entrada']);
+
+                                if (date_format($entrada, "H") >= '8' && date_format($entrada, "H") <= '23' ||
+                                    date_format($entrada, "H") >= '0' && date_format($entrada, "H") < '6') {
+                                    echo "<tr class='table-danger'>";
+                                } else {
+                                    echo "<tr>";
+                                }
+                                ?>
+                                <td><?php echo $asistencia['id_empleado'] ?></td>
+                                <td><?php echo $asistencia['empleado'] ?></td>
+                                <td><?php $date = date_create($asistencia['entrada']);
+                                    echo fecha($asistencia['entrada']) ?></td>
+                                <td><?php echo date_format($entrada, "g:i a"); ?></td>
+                                <td><?php
+                                    if ($asistencia['salida'] == '0000-00-00 00:00:00') {
+                                        echo "<span class='text-danger'>No registrada</span>";
+                                    } else {
+                                        $salida = date_create($asistencia['salida']);
+                                        echo date_format($salida, "g:i a");
+                                    }
+                                    ?></td>
+                                <td><a href="#" style="color: #7CBEEA;" data-toggle="modal" data-target="#verFotos" data-nombre="<?php echo $asistencia['empleado'] ?>" data-imagen1="<img src=' <?php echo RUTA . 'resources/img/imgusers/' . $asistencia['email'] . '/' . $asistencia['thumb']; ?>' class='img-fluid' alt='Imagen Pantalla'>" data-imagen2="<img src=' <?php echo RUTA . 'resources/img/imgusers/'  . $asistencia['email'] . '/' .  $asistencia['thumb2']; ?>' class='img-fluid' alt='Imagen Pantalla'>" data-nota="<div class='alert alert-primary' role='alert'><?php echo nl2br($asistencia['comentario']); ?></div>">Ver fotos y comentarios ➥</a></td>
+                                <td>
+                                    <div class="btn-group col-12" role="group" aria-label="Basic example">
+                                        <!-- <button type="button" class="btn btn-info col-6" data-toggle="modal" data-target="#editAsis" data-registro="<?php //echo base64_encode($asistencia['id_asistencia']) ?>" data-nombre="<?php //echo $asistencia['empleado'] ?>" data-fecha="<?php //echo date_format($date, "d-m-Y") ?>" data-entrada="<?php //echo $asistencia['entrada'] ?>" data-salida="<?php //echo $asistencia['salida'] ?>">Editar</button> -->
+                                        <button type=" button" class="btn btn-danger col-12" data-toggle="modal" data-target="#deleteAsis" data-nombre="<?php echo $asistencia['empleado'] ?>" data-fecha="<?php echo date_format($date, "d-m-Y") ?>" data-registro="<?php echo base64_encode($asistencia['id_asistencia']) ?>" data-imagen1="<?php echo '../../resources/img/imgusers/' . $asistencia['email'] . '/' . $asistencia['thumb']; ?>" data-imagen2="<?php echo '../../resources/img/imgusers/' . $asistencia['email'] . '/' . $asistencia['thumb2']; ?>">Elminar</button>
+                                    </div>
+                                </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot class="bg-dark text-white">
+                            <tr>
+                                <th>No. Nomina</th>
+                                <th>Empleado</th>
+                                <th>Dia</th>
+                                <th>Entrada</th>
+                                <th>Salida</th>
+                                <th>Fotos</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
 
                 <!-- Modal ver imagenes -->
                 <div class="modal fade" id="verFotos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -161,18 +199,41 @@
                         </div>
                     </div>
                 </div>
-            <?php
-            } else {
-                echo '<div class="card text-white justify-content-center col-11 bg-dark">
-                        <div class="card-body h2 text-white">
-                           <center> No hay registros. </center>
-                         </div>
-                    </div>';
-            }
-            ?>
+            <?php else : ?>
+                <div class="table-responsive">
+                    <table id="table_asist" class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>No. Nomina</th>
+                                <th>Empleado</th>
+                                <th>Dia</th>
+                                <th>Entrada</th>
+                                <th>Salida</th>
+                                <th>Fotos</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot class="bg-dark text-white">
+                            <tr>
+                                <th>No. Nomina</th>
+                                <th>Empleado</th>
+                                <th>Dia</th>
+                                <th>Entrada</th>
+                                <th>Salida</th>
+                                <th>Fotos</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            <?php endif; ?>
 
         </div>
     </div>
+
+    <div style="padding-top: 20px"></div>
 
 
     <!-- JS, Popper.js, and jQuery -->
@@ -218,7 +279,37 @@
             modal.find('.modal-body #entrada').val(entrada)
             modal.find('.modal-body #salida').val(salida)
         })
+
+        $(document).ready(function() {
+            $('#table_asist').DataTable({
+                responsive: true,
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "zeroRecords": "No hay registros",
+                    "info": "Mostrando del _PAGE_ al _PAGES_ de _TOTAL_ registros",
+                    "infoEmpty": "No hay registros",
+                    "infoFiltered": "(Filtrado de un total de _MAX_ registros)",
+                    "search": "Buscar:",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                },
+                "order": [
+                    [3, "desc"]
+                ]
+            });
+        });
     </script>
+    <script type="text/javascript" src="<?php echo RUTA ?>resources/js/datatables.min.js"></script>
 
 </body>
 

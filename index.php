@@ -74,6 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_FILES)) {
                     if ($thumb1 !== false && $thumb2 !== false) {
                         $fehahora_actual = date("Y-m-d H:i:s");
                         $carpeta_destino = 'resources/img/imgusers/' . $usuario . '/';
+                        if(!file_exists($carpeta_destino)){
+                            mkdir($carpeta_destino, 0777, true);
+                        }
                         $thumb_name1 = uniqid(mt_rand(), true) . '_' . $_FILES['thumb']['name'];
                         $thumb_name2 = uniqid(mt_rand(), true) . '_' . $_FILES['thumb2']['name'];
                         $archivo_subido = $carpeta_destino . $thumb_name1;
@@ -82,8 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_FILES)) {
                         move_uploaded_file($_FILES['thumb2']['tmp_name'], $archivo_subido2);
                         $exif = exif_read_data($archivo_subido);
                         $exif2 = exif_read_data($archivo_subido2);
-                        $fecha_img = date_format(date_create($exif['DateTimeDigitized']), "Y-m-d");
-                        $fecha_img2 = date_format(date_create($exif2['DateTimeDigitized']), "Y-m-d");
+                        $fecha_img = date_format(date_create($exif['DateTimeOriginal']), "Y-m-d");
+                        $fecha_img2 = date_format(date_create($exif2['DateTimeOriginal']), "Y-m-d");
+
                         if ($fecha_img == date("Y-m-d") && $fecha_img2 == date("Y-m-d")) {
                             if (empty($coment)) {
                                 $statement = $conexion->prepare('INSERT INTO asistencias_usuarios (id_asistencia, email, thumb, thumb2, entrada, salida) 
